@@ -6,7 +6,7 @@ callWithJQuery = (pivotModule) ->
     # Plain browser env
     else
         pivotModule jQuery
-
+        
 callWithJQuery ($) ->
     nf = $.pivotUtilities.numberFormat
     tpl = $.pivotUtilities.aggregatorTemplates
@@ -15,7 +15,7 @@ callWithJQuery ($) ->
     frFmtInt = nf(digitsAfterDecimal: 0, thousandsSep: " ", decimalSep: ",")
     frFmtPct = nf(digitsAfterDecimal: 1, scaler: 100, suffix: "%", thousandsSep: " ", decimalSep: ",")
 
-    $.pivotUtilities.locales.es =
+    $.pivotUtilities.locales.es = 
 
         localeStrings:
             renderError: "Ocurrió un error durante la interpretación de la tabla din´mica."
@@ -28,7 +28,7 @@ callWithJQuery ($) ->
             totals: "Totales"
             vs: "vs"
             by: "por"
-        aggregators:
+        aggregators: 
             "Cuenta":                             tpl.count(frFmtInt)
             "Cuenta de valores únicos":          tpl.countUnique(frFmtInt)
             "Lista de valores únicos":           tpl.listUnique(", ")
