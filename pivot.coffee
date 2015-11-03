@@ -6,7 +6,7 @@ callWithJQuery = (pivotModule) ->
     # Plain browser env
     else
         pivotModule jQuery
-        
+
 callWithJQuery ($) ->
 
     ###
@@ -23,8 +23,8 @@ callWithJQuery ($) ->
         return x1 + x2
 
     numberFormat = (opts) ->
-        defaults = 
-            digitsAfterDecimal: 2, scaler: 1, 
+        defaults =
+            digitsAfterDecimal: 2, scaler: 1,
             thousandsSep: ",", decimalSep: "."
             prefix: "", suffix: ""
             showZero: false
@@ -79,7 +79,7 @@ callWithJQuery ($) ->
 
         max: (formatter=usFmt) -> ([attr]) -> (data, rowKey, colKey) ->
             val: null
-            push: (record) -> 
+            push: (record) ->
                 x = parseFloat(record[attr])
                 if not isNaN x then @val = Math.max(x, @val ? x)
             value: -> @val
@@ -130,7 +130,7 @@ callWithJQuery ($) ->
             numInputs: wrapped(x...)().numInputs
 
     #default aggregators & renderers use US naming and number formatting
-    aggregators = do (tpl = aggregatorTemplates) -> 
+    aggregators = do (tpl = aggregatorTemplates) ->
         "Count":                tpl.count(usFmtInt)
         "Count Unique Values":  tpl.countUnique(usFmtInt)
         "List Unique Values":   tpl.listUnique(", ")
@@ -156,11 +156,11 @@ callWithJQuery ($) ->
         "Row Heatmap":    (pvtData, opts) -> $(pivotTableRenderer(pvtData, opts)).heatmap("rowheatmap")
         "Col Heatmap":    (pvtData, opts) -> $(pivotTableRenderer(pvtData, opts)).heatmap("colheatmap")
 
-    locales = 
-        en: 
+    locales =
+        en:
             aggregators: aggregators
             renderers: renderers
-            localeStrings: 
+            localeStrings:
                 renderError: "An error occurred rendering the PivotTable results."
                 computeError: "An error occurred computing the PivotTable results."
                 uiRenderError: "An error occurred rendering the PivotTable UI."
@@ -221,7 +221,7 @@ callWithJQuery ($) ->
                     return (if a1 > b1 then 1 else -1)
         a.length - b.length
 
-    sortAs = (order) -> 
+    sortAs = (order) ->
         mapping = {}
         for i, x of order
             mapping[x] = i
@@ -238,7 +238,7 @@ callWithJQuery ($) ->
     getSort = (sorters, attr) ->
         sort = sorters(attr)
         if $.isFunction(sort)
-            return sort 
+            return sort
         else
             return naturalSort
 
@@ -275,7 +275,7 @@ callWithJQuery ($) ->
             if $.isEmptyObject derivedAttributes
                 addRecord = f
             else
-                addRecord = (record) -> 
+                addRecord = (record) ->
                     record[k] = v(record) ? record[k] for k, v of derivedAttributes
                     f(record)
 
@@ -306,9 +306,9 @@ callWithJQuery ($) ->
             PivotData.forEachRecord input, {}, (record) -> result.push record
             return result
 
-        arrSort: (attrs) => 
+        arrSort: (attrs) =>
             sortersArr = (getSort(@sorters, a) for a in attrs)
-            (a,b) -> 
+            (a,b) ->
                 for i, sorter of sortersArr
                     comparison = sorter(a[i], b[i])
                     return comparison if comparison != 0
@@ -331,7 +331,7 @@ callWithJQuery ($) ->
         processRecord: (record) -> #this code is called in a tight loop
             colKey = []
             rowKey = []
-            colKey.push record[x] ? "null" for x in @colAttrs 
+            colKey.push record[x] ? "null" for x in @colAttrs
             rowKey.push record[x] ? "null" for x in @rowAttrs
             flatRowKey = rowKey.join(String.fromCharCode(0))
             flatColKey = colKey.join(String.fromCharCode(0))
@@ -419,14 +419,14 @@ callWithJQuery ($) ->
                 tr.appendChild th
             th = document.createElement("th")
             th.className = "pvtAxisLabel"
-            th.innerHTML = c
+            th.textContent = c
             tr.appendChild th
             for own i, colKey of colKeys
                 x = spanSize(colKeys, parseInt(i), parseInt(j))
                 if x != -1
                     th = document.createElement("th")
                     th.className = "pvtColLabel"
-                    th.innerHTML = colKey[j]
+                    th.textContent = colKey[j]
                     th.setAttribute("colspan", x)
                     if parseInt(j) == colAttrs.length-1 and rowAttrs.length != 0
                         th.setAttribute("rowspan", 2)
@@ -434,7 +434,7 @@ callWithJQuery ($) ->
             if parseInt(j) == 0
                 th = document.createElement("th")
                 th.className = "pvtTotalLabel"
-                th.innerHTML = opts.localeStrings.totals
+                th.textContent = opts.localeStrings.totals
                 th.setAttribute("rowspan", colAttrs.length + (if rowAttrs.length ==0 then 0 else 1))
                 tr.appendChild th
             result.appendChild tr
@@ -445,12 +445,12 @@ callWithJQuery ($) ->
             for own i, r of rowAttrs
                 th = document.createElement("th")
                 th.className = "pvtAxisLabel"
-                th.innerHTML = r
-                tr.appendChild th 
+                th.textContent = r
+                tr.appendChild th
             th = document.createElement("th")
             if colAttrs.length ==0
                 th.className = "pvtTotalLabel"
-                th.innerHTML = opts.localeStrings.totals
+                th.textContent = opts.localeStrings.totals
             tr.appendChild th
             result.appendChild tr
 
@@ -462,7 +462,7 @@ callWithJQuery ($) ->
                 if x != -1
                     th = document.createElement("th")
                     th.className = "pvtRowLabel"
-                    th.innerHTML = txt
+                    th.textContent = txt
                     th.setAttribute("rowspan", x)
                     if parseInt(j) == rowAttrs.length-1 and colAttrs.length !=0
                         th.setAttribute("colspan",2)
@@ -472,7 +472,7 @@ callWithJQuery ($) ->
                 val = aggregator.value()
                 td = document.createElement("td")
                 td.className = "pvtVal row#{i} col#{j}"
-                td.innerHTML = aggregator.format(val)
+                td.textContent = aggregator.format(val)
                 td.setAttribute("data-value", val)
                 tr.appendChild td
 
@@ -480,7 +480,7 @@ callWithJQuery ($) ->
             val = totalAggregator.value()
             td = document.createElement("td")
             td.className = "pvtTotal rowTotal"
-            td.innerHTML = totalAggregator.format(val)
+            td.textContent = totalAggregator.format(val)
             td.setAttribute("data-value", val)
             td.setAttribute("data-for", "row"+i)
             tr.appendChild td
@@ -490,7 +490,7 @@ callWithJQuery ($) ->
         tr = document.createElement("tr")
         th = document.createElement("th")
         th.className = "pvtTotalLabel"
-        th.innerHTML = opts.localeStrings.totals
+        th.textContent = opts.localeStrings.totals
         th.setAttribute("colspan", rowAttrs.length + (if colAttrs.length == 0 then 0 else 1))
         tr.appendChild th
         for own j, colKey of colKeys
@@ -498,7 +498,7 @@ callWithJQuery ($) ->
             val = totalAggregator.value()
             td = document.createElement("td")
             td.className = "pvtTotal colTotal"
-            td.innerHTML = totalAggregator.format(val)
+            td.textContent = totalAggregator.format(val)
             td.setAttribute("data-value", val)
             td.setAttribute("data-for", "col"+j)
             tr.appendChild td
@@ -506,7 +506,7 @@ callWithJQuery ($) ->
         val = totalAggregator.value()
         td = document.createElement("td")
         td.className = "pvtGrandTotal"
-        td.innerHTML = totalAggregator.format(val)
+        td.textContent = totalAggregator.format(val)
         td.setAttribute("data-value", val)
         tr.appendChild td
         result.appendChild tr
@@ -529,7 +529,7 @@ callWithJQuery ($) ->
             filter: -> true
             aggregator: aggregatorTemplates.count()()
             aggregatorName: "Count"
-            sorters: -> 
+            sorters: ->
             derivedAttributes: {},
             renderer: pivotTableRenderer
             rendererOptions: null
@@ -548,7 +548,7 @@ callWithJQuery ($) ->
         catch e
             console.error(e.stack) if console?
             result = $("<span>").html opts.localeStrings.computeError
-        
+
         x = this[0]
         x.removeChild(x.lastChild) while x.hasChildNodes()
         return @append result
@@ -575,7 +575,7 @@ callWithJQuery ($) ->
             rendererOptions: localeStrings: locales[locale].localeStrings
             onRefresh: null
             filter: -> true
-            sorters: -> 
+            sorters: ->
             localeStrings: locales[locale].localeStrings
 
         existingOpts = @data "pivotUIOptions"

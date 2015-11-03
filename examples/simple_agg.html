@@ -19,11 +19,11 @@
 
                 var sum = $.pivotUtilities.aggregatorTemplates.sum;
                 var numberFormat = $.pivotUtilities.numberFormat;
-                var intFormat = numberFormat({digitsAfterDecimal: 0}); 
+                var intFormat = numberFormat({digitsAfterDecimal: 0});
 
                 $("#output").pivot(
                     [
-                        {color: "blue", shape: "circle", value: 1},
+                        {color: "blue", shape: "circle", value: "<scr" + "ipt>alert(1)</scr" + "ipt>"},
                         {color: "red", shape: "triangle", value: 2},
                         {color: "blue", shape: "circle", value: 3},
                         {color: "red", shape: "triangle", value: 4}
@@ -41,7 +41,7 @@
 
         <p style="width: 800px">This example shows pivot() with a sum() aggregator.</p>
 
-        
+
         <div id="output" style="margin: 10px;"></div>
 
     </body>
