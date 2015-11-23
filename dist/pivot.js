@@ -1191,7 +1191,8 @@
         ref2 = opts.aggregators;
         for (x in ref2) {
           if (!hasProp.call(ref2, x)) continue;
-          aggregator.append($("<option>").val(x).html(x));
+          console.log(x, ref2);
+          aggregator.append($("<option>").val(x).text(x));
         }
         $("<td>").addClass('pvtVals').appendTo(tr1).append(aggregator).append($("<br>"));
         $("<td>").addClass('pvtAxisContainer pvtHorizList pvtCols').appendTo(tr1);
